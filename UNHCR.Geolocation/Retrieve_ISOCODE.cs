@@ -15,8 +15,8 @@ namespace UNHCR.Geolocation
 {
     public class Retrieve_ISOCODE
     {
-        private static readonly HttpClient  HttpClient = new HttpClient();
-        private static readonly string azureMapsSubKey = "Cn25V3RY2C5MitRHKC1eaVJ8YbhmS825BEK_89GkYAw";
+        //private static readonly HttpClient  HttpClient = new HttpClient();
+        //private static readonly string azureMapsSubKey = "Cn25V3RY2C5MitRHKC1eaVJ8YbhmS825BEK_89GkYAw";
 
         public Retrieve_ISOCODE(IKeyVaultManager _keyVaultManager, IHttpClientFactory _httpClientFactory)
         {
@@ -26,6 +26,7 @@ namespace UNHCR.Geolocation
 
         public IKeyVaultManager keyVaultManager;
         private readonly IHttpClientFactory httpClientFactory;
+        private string subkey;
 
         [FunctionName("Retrieve_ISOCODE")]
         public async Task<IActionResult> Run(
@@ -34,6 +35,7 @@ namespace UNHCR.Geolocation
             log.LogInformation("C# HTTP trigger function processed a request.");
 
             string name = req.Query["name"];
+            subkey = await keyVaultManager.GetSecretAsync("AtlasSubscriptionKey");
 
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
             dynamic data = JsonConvert.DeserializeObject(requestBody);
@@ -61,11 +63,12 @@ namespace UNHCR.Geolocation
             }
 
             string isoCode = string.Empty;
-            string azureMapsEndpoint = $"https://atlas.microsoft.com/geolocation/ip/json?api-version=1.0&ip={clientIP}&subscription-key={azureMapsSubKey}";
+            string azureMapsEndpoint = $"https://atlas.microsoft.com/geolocation/ip/json?api-version=1.0&ip={clientIP}&subscription-key={subkey}";
 
             try
             {
-                HttpResponseMessage response = await HttpClient.GetAsync(azureMapsEndpoint);
+                var httpClient = httpClientFactory.CreateClient();
+                HttpResponseMessage response = await httpClient.GetAsync(azureMapsEndpoint);
                 response.EnsureSuccessStatusCode();
 
                 string responseBody = await response.Content.ReadAsStringAsync();

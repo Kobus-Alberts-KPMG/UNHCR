@@ -7,11 +7,9 @@
       "type": "storage.emulator",
       "connectionId": "AzureWebJobsStorage"
     },
-    "secrets1": {
-      "secretStore": null,
-      "resourceId": null,
-      "type": "secrets.user",
-      "connectionId": null
+    "secrets2": {
+      "ignored": "true",
+      "type": "secrets.keyVault"
     }
   }
 }

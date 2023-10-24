@@ -3,7 +3,7 @@
   "Values": {
     "AzureWebJobsStorage": "UseDevelopmentStorage=true",
     "FUNCTIONS_WORKER_RUNTIME": "dotnet",
-    //"KeyVaultConnection": "https://kv-weu-epgdev-001.vault.azure.net/"
+    "KeyVaultConnection": "https://geo-fencing-key-valut.vault.azure.net/"
     //"AzureServiceBusConnection": "Endpoint=sb://sb-weu-dev-ais-001.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=TwFMoaPBNKI5/1hIXj7FK78Gsi57SUZsp+ASbDSd7iQ=",
     //"AzureBlobStorageConnection": "DefaultEndpointsProtocol=https;AccountName=stepgdevgeneral001;AccountKey=9c2Jzn7YPaijwX1dQpsir8OwcaWj0HK+mA5dz8rLYSQ1y/f5bL7BG7mf1QOLKcpVGoCCbE4bvfBi+AStQs22UQ==;EndpointSuffix=core.windows.net"
   }
