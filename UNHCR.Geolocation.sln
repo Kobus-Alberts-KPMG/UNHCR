@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.7.34202.233
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UNHCR.Geolocation", "Geo Fencing tests\UNHCR.Geolocation.csproj", "{BE8A88BD-14FD-4DB6-B6D3-FF33E3509BAD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UNHCR.Geolocation", "UNHCR.Geolocation\UNHCR.Geolocation.csproj", "{6F7233E1-C015-473F-AC3F-10B3EC86406C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,10 +11,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{BE8A88BD-14FD-4DB6-B6D3-FF33E3509BAD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{BE8A88BD-14FD-4DB6-B6D3-FF33E3509BAD}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{BE8A88BD-14FD-4DB6-B6D3-FF33E3509BAD}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{BE8A88BD-14FD-4DB6-B6D3-FF33E3509BAD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6F7233E1-C015-473F-AC3F-10B3EC86406C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6F7233E1-C015-473F-AC3F-10B3EC86406C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6F7233E1-C015-473F-AC3F-10B3EC86406C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6F7233E1-C015-473F-AC3F-10B3EC86406C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
