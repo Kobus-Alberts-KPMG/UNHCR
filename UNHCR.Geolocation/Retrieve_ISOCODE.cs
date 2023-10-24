@@ -13,14 +13,23 @@ using System.Net.Http;
 
 namespace UNHCR.Geolocation
 {
-    public static class Retrieve_ISOCODE
+    public class Retrieve_ISOCODE
     {
-        private static readonly HttpClient HttpClient = new HttpClient();
+        private static readonly HttpClient  HttpClient = new HttpClient();
         private static readonly string azureMapsSubKey = "Cn25V3RY2C5MitRHKC1eaVJ8YbhmS825BEK_89GkYAw";
+
+        public Retrieve_ISOCODE(IKeyVaultManager _keyVaultManager, IHttpClientFactory _httpClientFactory)
+        {
+            keyVaultManager = _keyVaultManager;
+            httpClientFactory = _httpClientFactory;
+        }
+
+        public IKeyVaultManager keyVaultManager;
+        private readonly IHttpClientFactory httpClientFactory;
+
         [FunctionName("Retrieve_ISOCODE")]
-        public static async Task<IActionResult> Run(
-            [HttpTrigger(AuthorizationLevel.Function, "get", Route = null)] HttpRequest req,
-            ILogger log)
+        public async Task<IActionResult> Run(
+            [HttpTrigger(AuthorizationLevel.Function, "get", Route = null)] HttpRequest req, ILogger log)
         {
             log.LogInformation("C# HTTP trigger function processed a request.");
 
@@ -31,10 +40,7 @@ namespace UNHCR.Geolocation
             name = name ?? data?.name;
             string url = data?.url; // get the URL from the request body
 
-
-
             string ipAddress = req.Headers["X-Forwared-For"].FirstOrDefault();
-
             var headerValues = new Dictionary<string, string>();
 
             foreach (var header in req.Headers)

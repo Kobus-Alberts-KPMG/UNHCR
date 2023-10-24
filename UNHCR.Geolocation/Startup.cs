@@ -1,4 +1,5 @@
 ﻿using Microsoft.Azure.Functions.Extensions.DependencyInjection;
+using Microsoft.Extensions.Azure;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -27,6 +28,12 @@ namespace UNHCR.Geolocation
             builder.Services.AddSingleton<IKeyVaultManager, KeyVaultManager>();
 
             builder.Services.AddHttpClient();
+
+            builder.Services.AddAzureClients(builder =>
+            {
+                builder.AddSecretClient(new Uri(Configuration["KeyVaultConnection"]));
+            });
+
         }
     }
 }
