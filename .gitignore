@@ -4,3 +4,5 @@
 
 /.vs/UNHCR.Geolocation
 /.vs
+/UNHCR.GeolocationTests/bin
+/UNHCR.GeolocationTests/obj
