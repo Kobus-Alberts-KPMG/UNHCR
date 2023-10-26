@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using UNHCR.Geolocation;
+using UNHCR.Geolocation.Infrastructure;
 
 [assembly: FunctionsStartup(typeof(Startup))]
 

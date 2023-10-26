@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace UNHCR.Geolocation
+namespace UNHCR.Geolocation.Infrastructure
 {
     public interface IKeyVaultManager
     {

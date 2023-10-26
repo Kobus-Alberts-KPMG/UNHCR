@@ -1,9 +1,8 @@
 {
   "profiles": {
-    "Geo_Fencing_tests": {
+    "UNHCR.Geolocation": {
       "commandName": "Project",
-      "commandLineArgs": "--port 7036",
-      "launchBrowser": false
+      "commandLineArgs": "--port 7036"
     }
   }
 }

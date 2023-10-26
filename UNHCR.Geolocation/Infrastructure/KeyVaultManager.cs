@@ -1,7 +1,7 @@
 ﻿using Azure.Security.KeyVault.Secrets;
 using System.Threading.Tasks;
 
-namespace UNHCR.Geolocation
+namespace UNHCR.Geolocation.Infrastructure
 {
     public class KeyVaultManager : IKeyVaultManager
     {
