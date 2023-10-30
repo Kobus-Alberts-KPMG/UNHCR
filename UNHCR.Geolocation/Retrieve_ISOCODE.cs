@@ -35,24 +35,13 @@ namespace UNHCR.Geolocation
 
             subkey = await keyVaultManager.GetSecretAsync("AtlasSubscriptionKey");
 
-            var headerValues = new Dictionary<string, string>();
-
-            foreach (var header in req.Headers)
+            var clientIPResult = await IPHelper.GetClientIP(req, log);
+            if (clientIPResult is BadRequestObjectResult)
             {
-                var headerValue = string.Join(",", header.Value);
-                headerValues.Add(header.Key, headerValue);
-            }
-            
-            if (headerValues.TryGetValue("X-Forwarded-For", out string xForwardedForValue))
-            {
-                clientIP = xForwardedForValue.Split(':')[0];
-                log.LogInformation($"X-Forwarded-For: {xForwardedForValue}");
-            }
-            else
-            {
-                log.LogInformation("The 'X-Forwarded-For' header was not found.");
+                return clientIPResult;
             }
 
+            clientIP = clientIPResult.ToString();
             var result = await APIHelper.CallMapsAPI(httpClientFactory, log, clientIP, subkey);
 
             var message = $"The client IP address is {clientIP}";
