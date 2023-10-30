@@ -32,7 +32,6 @@ namespace UNHCR.Geolocation
         public async Task<IActionResult> Run(
             [HttpTrigger(AuthorizationLevel.Function, "get", Route = null)] HttpRequest req, ILogger log)
         {
-
             subkey = await keyVaultManager.GetSecretAsync("AtlasSubscriptionKey");
 
             var clientIPResult = await IPHelper.GetClientIP(req, log);
