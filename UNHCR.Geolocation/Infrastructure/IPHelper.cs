@@ -23,7 +23,7 @@ namespace UNHCR.Geolocation.Infrastructure
 
                 foreach (var header in req.Headers)
                 {
-                    var headerValue = string.Join(",", header.Value);
+                    var headerValue = string.Join(":", header.Value);
                     headerValues.Add(header.Key, headerValue);
                 }
 
