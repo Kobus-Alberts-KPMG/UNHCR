@@ -36,16 +36,15 @@ namespace UNHCR.Geolocation
             subkey = await keyVaultManager.GetSecretAsync("AtlasSubscriptionKey");
 
             var clientIPResult = await IPHelper.GetClientIP(req, log);
-            if (clientIPResult is BadRequestObjectResult)
+            if (!(clientIPResult is OkObjectResult okResult))
             {
                 return clientIPResult;
             }
 
-            clientIP = clientIPResult.ToString();
-            var result = await APIHelper.CallMapsAPI(httpClientFactory, log, clientIP, subkey);
+            var clientIP = okResult.Value.ToString();
 
-            var message = $"The client IP address is {clientIP}";
-            log.LogInformation(message);
+            log.LogInformation($"The client IP address is {clientIP}");
+            var result = await APIHelper.CallMapsAPI(httpClientFactory, log, clientIP, subkey);
 
             return new OkObjectResult(result);
 

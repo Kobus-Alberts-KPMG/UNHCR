@@ -29,8 +29,9 @@ namespace UNHCR.Geolocation.Infrastructure
 
                 if (headerValues.TryGetValue("X-Forwarded-For", out string xForwardedForValue))
                 {
-                    var clientIP = xForwardedForValue.Split(':')[0];
                     log.LogInformation($"X-Forwarded-For: {xForwardedForValue}");
+                    var clientIP = xForwardedForValue.Split(':')[0];
+                    log.LogInformation($"Client IP: {clientIP}");
                     return new OkObjectResult(clientIP);
                 }
                 else
