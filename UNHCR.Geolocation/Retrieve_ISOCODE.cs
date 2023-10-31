@@ -20,7 +20,7 @@ namespace UNHCR.Geolocation
         private readonly IHttpClientFactory httpClientFactory;
         private string subkey;
 
-        private string clientIP;
+        //private string clientIP;
 
         public Retrieve_ISOCODE(IKeyVaultManager _keyVaultManager, IHttpClientFactory _httpClientFactory)
         {
@@ -34,8 +34,8 @@ namespace UNHCR.Geolocation
         {
             subkey = await keyVaultManager.GetSecretAsync("AtlasSubscriptionKey");
 
-            var clientIPResult = await IPHelper.GetClientIP(req, log);
-            if (!(clientIPResult is OkObjectResult okResult))
+            var clientIPResult = await IPHelper.GetClientIP(req, log, IPHelper.GetClientIP());
+            if (clientIPResult is not OkObjectResult okResult)
             {
                 return clientIPResult;
             }
