@@ -15,7 +15,7 @@ namespace UNHCR.Geolocation.Infrastructure
 {
 	public static class IPHelper
 	{
-        public static async Task<IActionResult> GetClientIP(HttpRequest req, ILogger log)
+        public static IActionResult GetClientIP(HttpRequest req, ILogger log)
         {
             try
             {

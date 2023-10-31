@@ -34,7 +34,7 @@ namespace UNHCR.Geolocation
         {
             subkey = await keyVaultManager.GetSecretAsync("AtlasSubscriptionKey");
 
-            var clientIPResult = await IPHelper.GetClientIP(req, log);
+            var clientIPResult = IPHelper.GetClientIP(req, log);
             if (!(clientIPResult is OkObjectResult okResult))
             {
                 return clientIPResult;
