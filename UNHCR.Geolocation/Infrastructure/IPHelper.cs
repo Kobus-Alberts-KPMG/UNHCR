@@ -13,9 +13,9 @@ using System.Threading.Tasks;
 
 namespace UNHCR.Geolocation.Infrastructure
 {
-    public static class IPHelper
-    {
-        public static Task<IActionResult> GetClientIP(HttpRequest req, ILogger log, object v)
+	public static class IPHelper
+	{
+        public static async Task<IActionResult> GetClientIP(HttpRequest req, ILogger log)
         {
             try
             {
@@ -32,25 +32,20 @@ namespace UNHCR.Geolocation.Infrastructure
                     log.LogInformation($"X-Forwarded-For: {xForwardedForValue}");
                     var clientIP = xForwardedForValue.Split(':')[0];
                     log.LogInformation($"Client IP: {clientIP}");
-                    return Task.FromResult<IActionResult>(new OkObjectResult(clientIP));
+                    return new OkObjectResult(clientIP);
                 }
                 else
                 {
                     log.LogInformation("The 'X-Forwarded-For' header was not found.");
-                    return Task.FromResult<IActionResult>(new BadRequestObjectResult("Client IP was not found"));
+                    return new BadRequestObjectResult("Client IP was not found");
 
                 }
             }
             catch (Exception ex)
             {
                 log.LogError(ex, "Error getting client IP");
-                return Task.FromResult<IActionResult>(new BadRequestObjectResult("Error getting client IP"));
+                return new BadRequestObjectResult("Error getting client IP");
             }
-        }
-
-        internal static object GetClientIP()
-        {
-            throw new NotImplementedException();
         }
     }
 }
