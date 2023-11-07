@@ -28,6 +28,8 @@ namespace UNHCR.Geolocation
 
             builder.Services.AddSingleton<IKeyVaultManager, KeyVaultManager>();
 
+            builder.Services.AddTransient<IDataverseHttpClient, DataverseHttpClient>();
+
             builder.Services.AddHttpClient();
 
             builder.Services.AddAzureClients(builder =>

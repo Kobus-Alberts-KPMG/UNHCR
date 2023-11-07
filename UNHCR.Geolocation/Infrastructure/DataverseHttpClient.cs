@@ -23,7 +23,9 @@ namespace UNHCR.Geolocation.Infrastructure
             var tenantId = keyVaultManager.GetSecretAsync("TenantId").GetAwaiter().GetResult();
             var clientId = keyVaultManager.GetSecretAsync("ClientId").GetAwaiter().GetResult();
             var clientSecret = keyVaultManager.GetSecretAsync("ClientSecret").GetAwaiter().GetResult();
-            var scope = keyVaultManager.GetSecretAsync("Scope").GetAwaiter().GetResult();
+            var scope = keyVaultManager.GetSecretAsync("Scope2").GetAwaiter().GetResult();
+
+
             TenantInfo _tenantInfo = new()
             {
                 TenantId = tenantId,
@@ -140,9 +142,13 @@ namespace UNHCR.Geolocation.Infrastructure
                 httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(token.TokenType, token.AccessToken);
 
                 HttpResponseMessage response = await httpClient.GetAsync(uri).ConfigureAwait(false);
-
-                if (response.IsSuccessStatusCode)
+                
+                if (response.IsSuccessStatusCode) 
+                {
+                    //var response2 = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                    //Console.WriteLine($"response 2: {response2}");
                     return response;
+                }       
                 else
                 {
                     if (response.Content != null)

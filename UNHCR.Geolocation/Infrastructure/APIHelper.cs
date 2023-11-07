@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Microsoft.Identity.Client;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -41,18 +42,13 @@ namespace UNHCR.Geolocation.Infrastructure
                     IsoCode = isoCode
                 });*/
 
-
                 var result = new
                 {
                     ClientIP = clientIP,
                     IsoCode = isoCode
                 };
 
-                log.LogInformation($"before sending to retrieve_isoocde{result}");
-                return new OkObjectResult(result);
-
-                
-                
+                return new OkObjectResult(result); 
             }
             catch (HttpRequestException httpRequestException)
             {

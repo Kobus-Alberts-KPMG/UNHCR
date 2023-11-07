@@ -9,7 +9,7 @@ namespace UNHCR.Geolocation.Infrastructure
 {
     public interface IDataverseHttpClient
     {
-        Task<HttpResponseMessage> GetRequeestAsync(string uri);
+        Task<HttpResponseMessage> GetRequestAsync(string uri);
         Task<HttpResponseMessage> PostRequestAsync(string uri, StringContent bodyString);
     }
 }
