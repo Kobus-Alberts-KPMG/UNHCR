@@ -14,21 +14,20 @@ using UNHCR.Geolocation.Infrastructure;
 
 namespace UNHCR.Geolocation
 {
-    public class Retrieve_ISOCODE
+    public class GeoFencing
     {
         private readonly IKeyVaultManager keyVaultManager;
         private readonly IHttpClientFactory httpClientFactory;
         private string subkey;
-
         private string clientIP;
 
-        public Retrieve_ISOCODE(IKeyVaultManager _keyVaultManager, IHttpClientFactory _httpClientFactory)
+        public GeoFencing(IKeyVaultManager _keyVaultManager, IHttpClientFactory _httpClientFactory)
         {
             keyVaultManager = _keyVaultManager;
             httpClientFactory = _httpClientFactory;
         }
 
-        [FunctionName("Retrieve_ISOCODE")]
+        [FunctionName("GeoFencing")]
         public async Task<IActionResult> Run(
             [HttpTrigger(AuthorizationLevel.Function, "get", Route = null)] HttpRequest req, ILogger log)
         {
@@ -44,8 +43,13 @@ namespace UNHCR.Geolocation
 
             log.LogInformation($"The client IP address is {clientIP}");
             var result = await APIHelper.CallMapsAPI(httpClientFactory, log, clientIP, subkey);
+            log.LogInformation($"after recieving to isocode_retrieve {result}");
 
-            return new OkObjectResult(result);
+            //var finalResult = okResult2.Value.ToString();
+
+            log.LogInformation($"{result}");
+            //return new OkObjectResult(result);
+            return result;
 
         }
 
