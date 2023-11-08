@@ -35,13 +35,6 @@ namespace UNHCR.Geolocation.Infrastructure
                     return new BadRequestObjectResult("Error extracting ISO code from Azure Maps");
                 }
 
-/*                return new OkObjectResult(new
-                {
-                    ClientIp = clientIP,
-                    IsoCode = isoCode
-                });*/
-
-
                 var result = new
                 {
                     ClientIP = clientIP,
@@ -50,9 +43,6 @@ namespace UNHCR.Geolocation.Infrastructure
 
                 log.LogInformation($"before sending to retrieve_isoocde{result}");
                 return new OkObjectResult(result);
-
-                
-                
             }
             catch (HttpRequestException httpRequestException)
             {
