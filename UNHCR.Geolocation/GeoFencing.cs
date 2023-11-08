@@ -53,50 +53,25 @@ namespace UNHCR.Geolocation
                 isocode = resultData?.IsoCode;
             }
 
-
-            var dataverseTableResult = await dataverseHttpClient.GetRequestAsync("api/data/v9.1/progres_buenrollments?$select=_owningbusinessunit_value,progres_blockregistration,_progres_businessunit_value,progres_name,_progres_portalcountry_value,progres_registrationlimit&$expand=progres_progres_buenrollment_progres_countryterri($select=progres_isocode2,progres_isocode3,progres_name,progres_progresguid)");
+            var dataverseTableResult = await dataverseHttpClient.GetRequestAsync($"api/data/v9.1/progres_buenrollments?$filter=progres_progres_buenrollment_progres_countryterri/any()&$expand=progres_progres_buenrollment_progres_countryterri($filter=progres_isocode2 eq ' {isocode}')");
             string dataverseTableContent = await dataverseTableResult.Content.ReadAsStringAsync();
-            Console.WriteLine($"body content: {dataverseTableContent}");
-
-            dynamic dataverseJsonObject = Newtonsoft.Json.JsonConvert.DeserializeObject(dataverseTableContent);
-
-            var valuesArray = dataverseJsonObject.value;
+            var enrollmentCheck = JsonConvert.DeserializeObject<EnrollmentCheck>(dataverseTableContent);
             bool isMatchFound = false;
-            //string isocode2 = String.Empty;
-            
 
-            foreach ( var item in valuesArray ) 
+            Console.WriteLine($"body content: {dataverseTableContent}");
+            foreach (var enrollmentTerritory in enrollmentCheck.value)
             {
-                var countryTerriPropertyInfo = item.GetType().GetProperty("progres_progres_buenrollment_progres_countryterri");
-               
-                if (countryTerriPropertyInfo != null && countryTerriPropertyInfo.GetValue(item) != null)
+                if (enrollmentTerritory.progres_progres_buenrollment_progres_countryterri.Any())
                 {
-                    var isocode2PropertyInfo = countryTerriPropertyInfo.PropertyType.GetProperty("progres_isocode2");
-
-                    var isocode2 = isocode2PropertyInfo?.GetValue(countryTerriPropertyInfo.GetValue(item));
-
-                    if (isocode2 != null && isocode2.ToString().Trim() == isocode)
+                    foreach (var isoCode in enrollmentTerritory.progres_progres_buenrollment_progres_countryterri)
                     {
                         isMatchFound = true;
+                        log.LogInformation($"Matching Country Found: {isMatchFound} for ISO:{isoCode.progres_isocode3}");
                         break;
                     }
                 }
             }
-
-        
-
-            log.LogInformation($"Matching Country Found: {isMatchFound}");
-
-
-            //log.LogInformation($"after recieving to isocode_retrieve {result}");
-
-            //var finalResult = okResult2.Value.ToString();
-
-      
-            //return new OkObjectResult(result);
             return  new OkObjectResult(isMatchFound);
-
         }
-
     }
 }
