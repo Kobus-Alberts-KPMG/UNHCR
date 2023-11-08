@@ -20,12 +20,12 @@ namespace UNHCR.Geolocation.Infrastructure
             try
             {
                 var headerValues = new Dictionary<string, string>();
-#if DEBUG
-                var clientIP = "74.85.218.255";
-                return new OkObjectResult(clientIP);
-#endif
+//#if DEBUG
+//                var clientIP = "74.85.218.255";
+//                return new OkObjectResult(clientIP);
+//#endif
 
- /*               foreach (var header in req.Headers)
+                foreach (var header in req.Headers)
                 {
                     var headerValue = string.Join(":", header.Value);
                     headerValues.Add(header.Key, headerValue);
@@ -44,7 +44,7 @@ namespace UNHCR.Geolocation.Infrastructure
                     log.LogInformation("The 'X-Forwarded-For' header was not found.");
                     return new BadRequestObjectResult("Client IP was not found");
 
-                }*/
+                }
             }
             catch (Exception ex)
             {

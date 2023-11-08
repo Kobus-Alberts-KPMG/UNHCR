@@ -1,9 +1,14 @@
 {
   "dependencies": {
     "secrets1": {
+      "ignored": "true",
       "type": "secrets",
       "connectionId": "VaultUri",
       "dynamicId": null
+    },
+    "secrets2": {
+      "ignored": "true",
+      "type": "secrets.keyVault"
     },
     "storage1": {
       "type": "storage",
@@ -11,11 +16,7 @@
     },
     "appInsights1": {
       "type": "appInsights",
-      "connectionId": "APPLICATIONINSIGHTS_CONNECTION_STRING"
-    },
-    "secrets2": {
-      "type": "secrets",
-      "connectionId": "VaultUri",
+      "connectionId": "APPLICATIONINSIGHTS_CONNECTION_STRING",
       "dynamicId": null
     }
   }
