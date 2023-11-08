@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Net.Http;
 using UNHCR.Geolocation.Infrastructure;
 using Azure;
+using System.Reflection.Metadata;
 
 
 namespace UNHCR.Geolocation
@@ -51,9 +52,10 @@ namespace UNHCR.Geolocation
             {
                 dynamic resultData = okResult2.Value;
                 isocode = resultData?.IsoCode;
+                isocode = isocode.Trim();
             }
 
-            var dataverseTableResult = await dataverseHttpClient.GetRequestAsync($"api/data/v9.1/progres_buenrollments?$filter=progres_progres_buenrollment_progres_countryterri/any()&$expand=progres_progres_buenrollment_progres_countryterri($filter=progres_isocode2 eq ' {isocode}')");
+            var dataverseTableResult = await dataverseHttpClient.GetRequestAsync($"api/data/v9.1/progres_buenrollments?$filter=progres_progres_buenrollment_progres_countryterri/any()&$expand=progres_progres_buenrollment_progres_countryterri($filter=progres_isocode2 eq '{isocode}')");
             string dataverseTableContent = await dataverseTableResult.Content.ReadAsStringAsync();
             var enrollmentCheck = JsonConvert.DeserializeObject<EnrollmentCheck>(dataverseTableContent);
             bool isMatchFound = false;
@@ -71,7 +73,13 @@ namespace UNHCR.Geolocation
                     }
                 }
             }
-            return  new OkObjectResult(isMatchFound);
+            var result = new
+            {
+                ClientIP = clientIP,
+                IsoCode = isocode,
+                MatchFound = isMatchFound
+            };
+            return  new OkObjectResult(result);
         }
     }
 }
