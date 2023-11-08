@@ -88,7 +88,7 @@ namespace UNHCR.Geolocation
             log.LogInformation($"Matching Country Found: {isMatchFound}");
 
 
-            log.LogInformation($"after recieving to isocode_retrieve {result}");
+            //log.LogInformation($"after recieving to isocode_retrieve {result}");
 
             //var finalResult = okResult2.Value.ToString();
 
