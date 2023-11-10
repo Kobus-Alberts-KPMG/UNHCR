@@ -13,7 +13,11 @@ using System.Net.Http;
 using UNHCR.Geolocation.Infrastructure;
 using Azure;
 using System.Reflection.Metadata;
-
+using Microsoft.PowerPlatform.Dataverse.Client;
+using Azure.Identity;
+using Microsoft.PowerPlatform.Dataverse.Client.Extensions;
+using Azure.Core;
+using Microsoft.Xrm.Sdk.Query;
 
 namespace UNHCR.Geolocation
 {
@@ -30,6 +34,26 @@ namespace UNHCR.Geolocation
             httpClientFactory = _httpClientFactory;
             dataverseHttpClient = _dataverseHttpClient;
         }
+
+        [FunctionName("PingCRM")]
+        public async Task<IActionResult> PingCRM(
+            [HttpTrigger(AuthorizationLevel.Function, "get", Route = null)] HttpRequest req, ILogger log)
+        {
+            var managedIdentity = new DefaultAzureCredential(new DefaultAzureCredentialOptions()
+            {
+                ManagedIdentityClientId = "ba497ab9-d3ab-44d7-b52d-1b0fb07c8b80"
+            });
+
+            var environment = "https://myunhcr-dev.crm4.dynamics.com";
+
+            var client = new ServiceClient(new Uri(environment), tokenProviderFunction: async u => (
+                await managedIdentity.GetTokenAsync(new TokenRequestContext(new[] { $"{environment}/.default" }))).Token
+            );
+            var result = client.RetrieveMultiple(new FetchExpression("<fetch version=\"1.0\" output-format=\"xml-platform\" mapping=\"logical\" distinct=\"false\">\r\n<entity name=\"progres_countryterritory\">\r\n<attribute name=\"progres_countryterritoryid\" />\r\n<attribute name=\"progres_name\" />\r\n<attribute name=\"progres_isocode3\" />\r\n<attribute name=\"progres_progresguid\" />\r\n<attribute name=\"progres_isocode2\" />\r\n<order attribute=\"progres_name\" descending=\"false\" />\r\n<filter type=\"and\">\r\n<condition attribute=\"progres_isocode2\" operator=\"eq\" value=\"MT\" />\r\n</filter>\r\n</entity>\r\n</fetch>"));
+
+            return new OkObjectResult(result);
+        }
+
 
         [FunctionName("GeoFencing")]
         public async Task<IActionResult> Run(
