@@ -132,11 +132,15 @@ namespace UNHCR.Geolocation
                 if (territories.Entities != null)
                 {
                     foreach (var entity in territories.Entities)
-                    {             
-                        var progres_isocode2 = entity.KeyAttributes["progres_isocode2"].ToString();
-                        isMatchFound = true;
-                        log.LogInformation($"Matching Country Found: {isMatchFound} for ISO:{progres_isocode2}");
-                        break;
+                    {
+                        var found = entity.KeyAttributes.Keys.FirstOrDefault(x => x == "progres_isocode2");
+                        if (!string.IsNullOrEmpty(found))
+                        {
+                            var progres_isocode2 = entity.KeyAttributes["progres_isocode2"].ToString();
+                            isMatchFound = true;
+                            log.LogInformation($"Matching Country Found: {isMatchFound} for ISO:{progres_isocode2}");
+                            break;
+                        }
                     }
                 }
                 var result = new
