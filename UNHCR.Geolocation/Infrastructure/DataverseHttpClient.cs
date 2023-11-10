@@ -24,7 +24,7 @@ namespace UNHCR.Geolocation.Infrastructure
             var tenantId = keyVaultManager.GetSecretAsync("TenantId").GetAwaiter().GetResult();
             var clientId = keyVaultManager.GetSecretAsync("ClientId").GetAwaiter().GetResult();
             var clientSecret = keyVaultManager.GetSecretAsync("ClientSecret").GetAwaiter().GetResult();
-            var scope = keyVaultManager.GetSecretAsync("Scope2").GetAwaiter().GetResult();
+            var scope = keyVaultManager.GetSecretAsync("Scope").GetAwaiter().GetResult();
 
             TenantInfo _tenantInfo = new()
             {
@@ -52,40 +52,7 @@ namespace UNHCR.Geolocation.Infrastructure
                 .Build();
             logger.LogInformation($"retrieved token for client {tenantInfo.ClientId} on tenant {tenantInfo.TenantId}");
             return await app.AcquireTokenForClient(new[] { tenantInfo.Scope }).ExecuteAsync();
-        }
-
-        /// <summary>
-        /// Get managed identity token.
-        /// </summary>
-        /// <param name="resource">The AAD resource URI of the resource for which a token should be obtained. </param>
-        /// <param name="apiversion">The version of the token API to be used. "2017-09-01" is currently the only version supported.</param>
-        /// <param name="clientId">(Optional) The ID of the user-assigned identity to be used. If omitted, the system-assigned identity is used.</param>
-        /// <returns>A Bearer token ready to be used with AAD-authenticated REST API calls.</returns>
-        public  async Task<string> GetToken(string resource, string apiversion, string clientId = null)
-        {
-            var httpClient = httpClientFactory.CreateClient();
-            httpClient.DefaultRequestHeaders.Add("Secret", Environment.GetEnvironmentVariable("MSI_SECRET"));
-
-            string url;
-            if (clientId == null)
-            {
-                // Get system-assigned identity token
-                url = String.Format("{0}?resource={1}&api-version={2}", Environment.GetEnvironmentVariable("MSI_ENDPOINT"), resource, apiversion);
-            }
-            else
-            {
-                // Get user-assigned identity token
-                url = String.Format("{0}?resource={1}&api-version={2}&clientid={3}", Environment.GetEnvironmentVariable("MSI_ENDPOINT"), resource, apiversion, clientId);
-            }
-
-            HttpResponseMessage responseMessage = await httpClient.GetAsync(url);
-            string content = await responseMessage.Content.ReadAsStringAsync();
-
-            var result = JObject.Parse(content);
-            string accessToken = result["access_token"].ToString();
-
-            return accessToken;
-        }
+        }      
 
 
 
