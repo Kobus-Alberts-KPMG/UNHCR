@@ -84,15 +84,20 @@ namespace UNHCR.Geolocation
 
                 if (territories.Entities != null)
                 {
+
+                    log.LogInformation($"number of territories found: {territories.Entities.Count}");
                     foreach (var entity in territories.Entities)
                     {
-                        var found = entity.KeyAttributes.Keys.FirstOrDefault(x => x == "progres_isocode2");
-                        if (!string.IsNullOrEmpty(found))
+                        foreach (var attribute in entity.Attributes)
                         {
-                            var progres_isocode2 = entity.KeyAttributes["progres_isocode2"].ToString();
-                            isMatchFound = true;
-                            log.LogInformation($"Matching Country Found: {isMatchFound} for ISO:{progres_isocode2}");
-                            break;
+                            string atttributeName = attribute.Key;
+                            string attributeValue = attribute.Value != null ? attribute.Value.ToString() : null;
+                            log.LogInformation($"Entity Attribute - {atttributeName} : {attributeValue}");
+                            if (atttributeName == "progres_isocode2")
+                            {
+                                isMatchFound = true;
+                                break;
+                            }
                         }
                     }
                 }

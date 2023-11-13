@@ -17,13 +17,13 @@ namespace UNHCR.Geolocation.Infrastructure
 	{
         public static IActionResult GetClientIP(HttpRequest req, ILogger log)
         {
+
+            //var clientIP = "213.213.61.110";
+            //return new OkObjectResult(clientIP);
+
             try
             {
                 var headerValues = new Dictionary<string, string>();
-//#if DEBUG
-//                var clientIP = "74.85.218.255";
-//                return new OkObjectResult(clientIP);
-//#endif
 
                 foreach (var header in req.Headers)
                 {
